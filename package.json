@@ -1,27 +1,32 @@
 {
   "name": "@unicef/material-ui-currency-textfield",
-  "version": "0.8.6",
-  "description": "Currency input textfield for react with Material-ui style",
+  "version": "1.2.0", // Consider updating version after major changes
+  "description": "A React Component for entering currency formatted values using Material-UI",
   "keywords": [
     "material design",
     "material ui",
+    "mui",
+    "react",
     "currency",
     "currency input",
     "currency textfield",
-    "react"
+    "autonumeric",
+    "javascript",
+    "textfield"
   ],
-  "main": "./dist/index.js",
-  "typings": "./dist/index.d.ts",
+  "main": "dist/index.cjs.js", // CommonJS output
+  "module": "dist/index.esm.js", // ES Module output
+  "typings": "dist/index.d.ts", // Keep if you plan to add/generate type definitions
   "homepage": "https://unicef.github.io/material-ui-currency-textfield",
   "scripts": {
     "build": "rollup -c",
-    "start": "rollup -c -w",
-    "styleguide": "styleguidist server",
+    "start": "react-styleguidist server", // Start styleguidist for dev
     "styleguide:build": "styleguidist build",
-    "deploy": "gh-pages -d styleguide",
-    "transpile": "./node_modules/@babel/cli/bin/babel.js src/components/CurrencyTextField -d dist --copy-files",
-    "prepublishOnly": "npm run transpile",
-    "publish-demo": "npm run build && npm run deploy"
+    "deploy": "gh-pages -d styleguide", // Deploy styleguidist build
+    "publish-demo": "npm run styleguide:build && npm run deploy",
+    "prebuild": "rimraf dist", // Clean dist before build
+    "test": "echo \"Error: no test specified yet\" && exit 0" // Placeholder for tests
+    // Removed 'transpile' and 'prepublishOnly' as 'build' should handle transpilation via Rollup/Babel
   },
   "repository": {
     "type": "git",
@@ -29,52 +34,79 @@
   },
   "author": "UNICEF",
   "license": "MIT",
+  "files": [
+    "dist" // Specify files included in the published package
+  ],
   "peerDependencies": {
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "prop-types": "^15.7.2",
-    "@material-ui/core": ">= 4.3.0"
+    "react": "^17.0.0 || ^18.0.0", // Support modern React versions
+    "react-dom": "^17.0.0 || ^18.0.0",
+    "prop-types": "^15.7.2", // Keep prop-types until full TS conversion
+    "@mui/material": "^5.0.0", // Use MUI v5
+    "@emotion/react": "^11.0.0",
+    "@emotion/styled": "^11.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
-    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
-    "@babel/plugin-transform-react-jsx": "^7.3.0",
-    "@babel/preset-env": "^7.5.5",
-    "@babel/preset-react": "^7.0.0",
-    "@material-ui/core": "^4.8.3",
-    "@types/node": "^12.6.8",
-    "@types/react": "^16.9.22",
-    "babel-core": "^6.23.0",
-    "babel-loader": "^8.0.5",
-    "babel-plugin-external-helpers": "^6.22.0",
-    "babel-plugin-transform-react-jsx": "^6.24.1",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
-    "babelrc-rollup": "^3.0.0",
-    "core-util-is": "^1.0.2",
-    "file-loader": "^4.1.0",
-    "gh-pages": "^2.1.1",
-    "node-sass": "^4.12.0",
-    "prop-types": "^15.7.2",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-router-dom": "^5.0.1",
-    "react-select": "^3.0.4",
-    "react-styleguidist": "^10.4.2",
-    "rollup": "^1.17.0",
-    "rollup-plugin-babel": "^3.0.7",
-    "rollup-plugin-commonjs": "^10.0.1",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-peer-deps-external": "^2.2.0",
-    "rollup-plugin-url": "^2.2.2",
-    "style-loader": "^0.23.1",
-    "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.2.1"
+    // Babel Core & Presets/Plugins (Use latest stable versions)
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.18.13",
+    "@babel/preset-env": "^7.18.10", // Modern preset
+    "@babel/preset-react": "^7.18.6",  // Modern preset
+    "@babel/plugin-transform-runtime": "^7.18.10", // Good practice for helpers
+
+    // MUI v5 & Emotion (Match major version with peerDeps)
+    "@mui/material": "^5.10.1",
+    "@emotion/react": "^11.10.0",
+    "@emotion/styled": "^11.10.0",
+
+    // React (Use specific version for dev matching peer range)
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+
+    // Rollup & Plugins (Use latest compatible versions)
+    "rollup": "^2.78.1",
+    "@rollup/plugin-babel": "^5.3.1", // Ensure compatible with Babel 7+
+    "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4", // Keep this, useful for libraries
+    // Consider adding rollup-plugin-terser for minification if needed
+
+    // Styleguidist & Webpack (Check compatibility with React 18 / Webpack 5)
+    "react-styleguidist": "^13.0.1", // Update to latest
+    "webpack": "^5.74.0", // Styleguidist often needs Webpack
+
+    // Utilities
+    "prop-types": "^15.7.2", // Keep devDependency to match peerDep
+    "gh-pages": "^4.0.0", // Update gh-pages
+    "rimraf": "^3.0.2",
+
+    // Optional Dev Dependencies (Keep if used in examples/styleguide)
+    // "react-router-dom": "^5.0.1", // Keep if styleguide uses it
+    // "react-select": "^3.0.4", // Keep if styleguide uses it
+
+    // Dependencies below are likely replaced or outdated, remove them:
+    // "@babel/plugin-proposal-object-rest-spread": "Included in preset-env",
+    // "@babel/plugin-transform-react-jsx": "Included in preset-react",
+    // "@types/node": "Not essential unless doing Node-specific things",
+    // "@types/react": "Add if/when converting to TypeScript",
+    // "babel-core": "Old Babel v6",
+    // "babel-loader": "Needed if styleguidist uses older webpack that needs it specifically, v8+ usually works with Webpack 5",
+    // "babel-plugin-external-helpers": "Old Babel v6 plugin",
+    // "babel-plugin-transform-react-jsx": "Old Babel v6 plugin",
+    // "babel-preset-env": "Old Babel v6 preset",
+    // "babel-preset-react": "Old Babel v6 preset",
+    // "babel-preset-stage-0": "Deprecated stage preset",
+    // "babelrc-rollup": "No longer needed with modern @rollup/plugin-babel",
+    // "core-util-is": "Likely transitive dependency, let npm/yarn manage",
+    // "file-loader": "Webpack loader, let styleguidist/webpack manage",
+    // "node-sass": "Only needed if using Sass, potentially for styleguidist theme",
+    // "rollup-plugin-babel": "^3.0.7", // Old version
+    // "rollup-plugin-url": "Consider if still needed, alternatives exist",
+    // "style-loader": "Webpack loader, let styleguidist/webpack manage",
+    // "webpack-cli": "Let webpack manage its CLI",
+    // "webpack-dev-server": "Let styleguidist manage its server"
   },
   "dependencies": {
-    "autonumeric": "^4.5.4"
+    // Runtime dependency
+    "autonumeric": "^4.6.0" // Consider checking for latest v4.x version
   }
 }
